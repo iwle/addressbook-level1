@@ -133,6 +133,10 @@ public class AddressBook {
     private static final String COMMAND_EXIT_DESC = "Exits the program.";
     private static final String COMMAND_EXIT_EXAMPLE = COMMAND_EXIT_WORD;
 
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Sorts address book by first name";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
+
     private static final String DIVIDER = "===================================================";
 
 
@@ -381,6 +385,8 @@ public class AddressBook {
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
+        case COMMAND_SORT_WORD:
+            return sort();
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
         default:
@@ -580,6 +586,31 @@ public class AddressBook {
     }
 
     /**
+     * Sorts all persons in the address book by their name. Uses a simple
+     * bubble sort algorithm and compares the names lexicographically.
+     *
+     * @return feedback display message for the operation result
+     *
+     */
+    private static String sort() {
+        ArrayList<String[]> toBeDisplayed = getAllPersonsInAddressBook();
+        int n = toBeDisplayed.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1; j++) {
+                // Compares the name lexicographically
+                if (toBeDisplayed.get(j)[0].compareTo(toBeDisplayed.get(j+1)[0]) > 0) {
+                    String[] temp = toBeDisplayed.get(j);
+                    toBeDisplayed.set(j, toBeDisplayed.get(j+1));
+                    toBeDisplayed.set(j+1, temp);
+                }
+            }
+        }
+
+        showToUser(toBeDisplayed);
+        return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+    }
+
+    /**
      * Requests to terminate the program.
      */
     private static void executeExitProgramRequest() {
@@ -769,7 +800,6 @@ public class AddressBook {
             exitProgram();
         }
     }
-
 
     /*
      * ================================================================================
@@ -1072,7 +1102,6 @@ public class AddressBook {
         return email.matches("\\S+@\\S+\\.\\S+"); // email is [non-whitespace]@[non-whitespace].[non-whitespace]
         //TODO: implement a more permissive validation
     }
-
 
     /*
      * ===============================================
