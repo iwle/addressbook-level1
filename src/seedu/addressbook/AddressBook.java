@@ -66,6 +66,7 @@ public class AddressBook {
      * =========================================================================
      */
     private static final String MESSAGE_ADDED = "New person added: %1$s, Phone: %2$s, Email: %3$s";
+    private static final String MESSAGE_EDITED = "Person edited: %1$s, Phone: %2$s, Email: %3$s";
     private static final String MESSAGE_ADDRESSBOOK_CLEARED = "Address book has been cleared!";
     private static final String MESSAGE_COMMAND_HELP = "%1$s: %2$s";
     private static final String MESSAGE_COMMAND_HELP_PARAMETERS = "\tParameters: %1$s";
@@ -136,6 +137,10 @@ public class AddressBook {
     private static final String COMMAND_SORT_WORD = "sort";
     private static final String COMMAND_SORT_DESC = "Sorts address book by first name.";
     private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
+
+    private static final String COMMAND_EDIT_WORD = "edit";
+    private static final String COMMAND_EDIT_DESC = "Edits addressee by number.";
+    private static final String COMMAND_EDIT_EXAMPLE = COMMAND_EDIT_WORD;
 
     private static final String DIVIDER = "===================================================";
 
@@ -387,6 +392,8 @@ public class AddressBook {
             return getUsageInfoForAllCommands();
         case COMMAND_SORT_WORD:
             return sort();
+        case COMMAND_EDIT_WORD:
+            return executeEditPerson(commandArgs);
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
         default:
@@ -445,6 +452,16 @@ public class AddressBook {
      */
     private static String getMessageForSuccessfulAddPerson(String[] addedPerson) {
         return String.format(MESSAGE_ADDED,
+                getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
+    }
+
+    /**
+     * Constructs a feedback message for a successful edit person command execution.
+     *
+     * @see #executeEditPerson(String)
+     */
+    private static String getMessageForSuccessfulEditPerson(String[] addedPerson) {
+        return String.format(MESSAGE_EDITED,
                 getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
     }
 
@@ -609,6 +626,40 @@ public class AddressBook {
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
     }
+
+    /**
+     * Edit existing record of addressee, identified by the list number.
+     */
+    private static String executeEditPerson(String number) {
+
+        int index = Integer.valueOf(number.substring(0, 1));
+        String args = number.substring(1).trim();
+
+//        extractNameFromPersonString(args);
+
+        try {
+            String[] addressee = getAllPersonsInAddressBook().get(index - 1);
+            System.out.printf("%s%d. %s\tPhone Number: %s\tEmail: %s\n",
+                    LINE_PREFIX, index,
+                    addressee[0], addressee[1], addressee[2]);
+            System.out.print("Update record: ");
+            String update = SCANNER.nextLine();
+            final Optional<String[]> decodeResult = decodePersonFromString(update);
+
+            // checks if args are valid (decode result will not be present if the person is invalid)
+            if (!decodeResult.isPresent()) {
+                return getMessageForInvalidCommandInput(COMMAND_EDIT_WORD, getUsageInfoForAddCommand());
+            }
+
+            // remove the original and add the new record
+            final String[] personToAdd = decodeResult.get();
+            ALL_PERSONS.set(index - 1, personToAdd);
+            return getMessageForSuccessfulEditPerson(personToAdd);
+        } catch (IndexOutOfBoundsException exception) {
+            return "An error occurred.";
+        }
+    }
+
 
     /**
      * Requests to terminate the program.
@@ -855,7 +906,6 @@ public class AddressBook {
         ALL_PERSONS.clear();
         ALL_PERSONS.addAll(persons);
     }
-
 
     /*
      * ===========================================
