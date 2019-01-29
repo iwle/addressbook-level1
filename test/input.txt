@@ -14,7 +14,7 @@
   list
 
 ##########################################################
-# test add person command, setup state for futuer tests
+# test add person command, setup state for future tests
 ##########################################################
 
   # should catch invalid args format
@@ -41,6 +41,7 @@
   add Esther Potato p/555555 e/esther@notreal.potato
   list
 
+
 ##########################################################
 # test find persons command
 ##########################################################
@@ -60,6 +61,14 @@
   find Dickson
   # find multiple with some keywords
   find Charlie Betsy
+
+##########################################################
+# test sort person command
+##########################################################
+
+  # add name out of order
+  add Ahmad Ibrahim bin Suleiman e/ahmad@gmail.com p/1234
+  sort
 
 ##########################################################
 # test delete person command

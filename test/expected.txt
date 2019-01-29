@@ -201,7 +201,7 @@
 || Enter command: || [Command entered:  find Charlie Betsy]
 || 	1. Betsy Choo  Phone Number: 222222  Email: benchoo@nus.edu.sg
 || 	2. Charlie Dickson  Phone Number: 333333  Email: charlie.d@nus.edu.sg
-|| 
+||
 || 2 persons found!
 || ===================================================
 || Enter command: || [Command entered:  delete]
@@ -209,7 +209,26 @@
 || delete: Deletes a person identified by the index number used in the last find/list call.
 || 	Parameters: INDEX
 || 	Example: delete 1
-|| 
+||
+|| ===================================================
+|| Enter command:   add Ahmad Ibrahim bin Suleiman e/ahmad@gmail.com p/1234
+|| [Command entered:  add Ahmad Ibrahim bin Suleiman e/ahmad@gmail.com p/1234]
+|| New person added: Ahmad Ibrahim bin Suleiman, Phone: 1234, Email: ahmad@gmail.com
+|| ===================================================
+||
+|| ===================================================
+|| Enter command: sort
+|| [Command entered:sort]
+|| 	1. Adam Brown  Phone Number: 111111  Email: adam@gmail.com
+|| 	2. Ahmad Ibrahim bin Suleiman  Phone Number: 1234  Email: ahmad@gmail.com
+|| 	3. Betsy Choo  Phone Number: 222222  Email: benchoo@nus.edu.sg
+|| 	4. Charlie Dickson  Phone Number: 333333  Email: charlie.d@nus.edu.sg
+|| 	5. Dickson Ee  Phone Number: 444444  Email: dickson@nus.edu.sg
+|| 	6. Esther Potato  Phone Number: 555555  Email: esther@notreal.potato
+||
+|| 6 persons found!
+|| ===================================================
+||
 || ===================================================
 || Enter command: || [Command entered:  delete should be only one number]
 || Invalid command format: delete 
