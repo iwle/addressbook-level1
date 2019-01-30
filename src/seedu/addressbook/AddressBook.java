@@ -42,6 +42,7 @@ public class AddressBook {
      * Default file path used if the user doesn't provide the file name.
      */
     private static final String DEFAULT_STORAGE_FILEPATH = "addressbook.txt";
+    private static final String HELLO_WORLD = "hello world"; // demonstration
 
     /**
      * Version info of the program.
